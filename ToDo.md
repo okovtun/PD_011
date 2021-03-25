@@ -1,6 +1,6 @@
 https://github.com/okovtun/PD_011.git
 
-![YouTube](https://www.youtube.com/playlist?list=PLeqyOOqxeiIPInTeBnDUO6ik4Q7bRp2cR)
+[![YouTube](\img\YouTube_PL.png)](https://www.youtube.com/playlist?list=PLeqyOOqxeiIPInTeBnDUO6ik4Q7bRp2cR "Play list on YouTube")
 
 # TODO: #
 ###### 2021/03/24 ######
