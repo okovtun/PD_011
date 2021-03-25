@@ -3,6 +3,10 @@ using namespace std;
 
 #define tab "\t"
 
+using std::cin;
+using std::cout;
+using std::endl;
+
 //Создание структуры:
 class Point
 {
@@ -39,16 +43,10 @@ public:
 		this->x = x;
 		this->y = 0;
 		cout << "SingleArgumentConstructor:" << this << endl;
-	}
-	Point(double x, double y)
-	{
-		//Конструктор с параметрами создает точку на плоскости
-		this->x = x;
-		this->y = y;
-		cout << "Constructor:\t\t" << this << endl;
 	}*/
 	Point(double x = 0, double y = 0)
 	{
+		//Конструктор с параметрами создает точку на плоскости
 		//Этот кнструктор с параметрами может быть вызван 
 		//-без парамтеров;
 		//-с одним параметром;
@@ -70,11 +68,12 @@ public:
 	}
 
 	//			Operators:
-	void operator=(const Point& other)
+	Point& operator=(const Point& other)
 	{
 		this->x = other.x;
 		this->y = other.y;
 		cout << "CopyAssignment:\t\t" << this << endl;
+		return *this;
 	}
 
 	//				Methods:
@@ -106,10 +105,13 @@ double distance(const Point& A, const Point& B)
 
 //#define INTRO
 //#define CONSTRUCTORS
-#define DISTANCE
+#define ASSIGNMENT_CHECK
+//#define DISTANCE
+//#define OPERATOR_EXAMPLES
 
 void main()
 {
+	
 	setlocale(LC_ALL, "Rus");
 #ifdef INTRO
 	int a;	//Объявление переменной 'a', типа 'int'
@@ -149,8 +151,23 @@ void main()
 	G.print();
 #endif // CONSTRUCTORS
 
+#ifdef ASSIGNMENT_CHECK
+	int a, b, c;
+	a = b = c = 0;
+	Point A, B, C;
+	A = B = C = Point();
+#endif // ASSIGNMENT_CHECK
+
+#ifdef DISTANCE
 	Point A(2, 3);
 	Point B(4, 5);
+#ifdef OPERATOR_EXAMPLES
+	cout << A + B << endl;	//Неявный вызов оператора '+'
+	cout << A.operator+(B) << endl;//Явный вызов оператора '+', перегруженного в классе
+	cout << operator+(A, B) << endl;//Явный вызов оператора '+', перегруженного за классом  
+#endif // OPERATOR_EXAMPLES
+
+
 	A.print();
 	B.print();
 	cout << A.distance(B) << endl;
@@ -158,6 +175,8 @@ void main()
 	int();
 	A.print();
 	B.print();
+#endif // DISTANCE
+
 }
 
 /*
@@ -213,4 +232,25 @@ if(четотам)
 	./...
 }Здесь точки A уже нет, ее время жизни истекло.
 -------------------------------------
+*/
+
+/*
+------------------------------------------
+			OPERATOR OVERLOADS
+1) Перегрузить можно только существующие операторы:
+	+  - перегружается;
+	++ - перегружается;
+	*  - перегружаетсяж
+	** - НЕ перегружается;
+2) Не все существующие операторы можно перегрузить. 
+   Не перегружаются:
+    :: - scope operator (оператор разрешения видимости);
+    ?: - тернарный оператор;
+    .  - оператор прямого доступа;
+    .* - 
+    #  - preprocessor directive
+    ## - preprocessor concatenation
+3) Перегруженные операторы сохраняют приоритет;
+4) Нельзя переопределить поведение операторов со встроенными типами;
+------------------------------------------
 */
