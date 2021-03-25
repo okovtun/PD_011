@@ -1,4 +1,4 @@
-# Object-oriented programming with C++ #
+﻿# Object-oriented programming with C++ #
 *Объектно-ориентированное программирование с использованием языка C++*
 
 ![logo](/img/logo_1280x640px.png)
