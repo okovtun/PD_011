@@ -1,7 +1,3 @@
-https://github.com/okovtun/PD_011.git
-
-[![YouTube](/img/YouTube_PL_530x300px.png)](https://www.youtube.com/playlist?list=PLeqyOOqxeiIPInTeBnDUO6ik4Q7bRp2cR "Play list on YouTube")
-
 # TODO: #
 ###### 2021/03/24 ######
 - [ ] 1. Оптимизировать метод и функцию distance до одной строки кода. ***`--done`***
