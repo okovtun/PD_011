@@ -1,6 +1,5 @@
 ﻿https://github.com/okovtun/PD_011.git
 
-# TODO:
 [ReadMe](ReadMe.md)
 
 # TODO:
