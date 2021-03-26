@@ -75,6 +75,54 @@ public:
 		cout << "CopyAssignment:\t\t" << this << endl;
 		return *this;
 	}
+	Point& operator+=(const Point& other)
+	{
+		this->x += other.x;
+		this->y += other.y;
+		cout << "Operator+=\t\t" << this << endl;
+		return *this;
+	}
+
+	//			Increment/Decrement
+	Point& operator++()	//Prefix increment
+	{
+		this->x++;
+		this->y++;
+		cout << "Prefix increment:\t\t" << this << endl;
+		return *this;
+	}
+	Point operator++(int)//Postfix increment
+	{
+		Point old = *this;	//CopyConstructor
+		this->x++;
+		this->y++;
+		cout << "Postfix increment:\t" << this << endl;
+		return old;
+	}
+
+	/*Point operator+(const Point& other)const
+	{
+		Point result;
+		result.x = this->x + other.x;
+		result.y = this->y + other.y;
+		cout << "operator+" << endl;
+		return result;
+	}*/
+	/*Point operator-(const Point& other)const
+	{
+		Point result(this->x - other.x, this->y - other.y);
+		cout << "operator-" << endl;
+		return result;
+	}*/
+	/*Point operator*(const Point& other)
+	{
+		return Point(this->x*other.x, this->y*other.y);
+	}
+	Point operator/(const Point& other)
+	{
+		return Point(this->x/other.x, this->y/other.y);
+	}*/
+
 
 	//				Methods:
 	void print()
@@ -89,6 +137,7 @@ public:
 		return distance;
 	}
 };
+
 //Создавая структуру или класс, мы создаем новый тип данных, 
 //а объявляя объекты этого класса или структуры мы создаем переменные нашего типа.
 //			КЛАСС - ЭТО ТИП ДАННЫХ
@@ -103,15 +152,61 @@ double distance(const Point& A, const Point& B)
 	return distance;
 }
 
+Point operator+(const Point& left, const Point& right)
+{
+	Point result;
+	result.set_x(left.get_x() + right.get_x());
+	result.set_y(left.get_y() + right.get_y());
+	cout << "Global plus" << endl;
+	return result;
+}
+Point operator-(const Point& left, const Point& right)
+{
+	Point result
+	(
+		left.get_x() - right.get_x(),
+		left.get_y() - right.get_y()
+	);
+	cout << "Global minus" << endl;
+	return result;
+}
+
+Point operator*(const Point& left, const Point& right)
+{
+	return Point(left.get_x()*right.get_x(), left.get_y()*right.get_y());
+}
+Point operator/(const Point& left, const Point& right)
+{
+	return Point
+	(
+		left.get_x() / right.get_x(), 
+		left.get_y() / right.get_y()
+	);
+}
+
+std::ostream& operator<<(std::ostream& os/*output stream*/, const Point& obj)
+{
+	return os << "X = " << obj.get_x() << tab << "Y = " << obj.get_y();
+}
+
 //#define INTRO
 //#define CONSTRUCTORS
-#define ASSIGNMENT_CHECK
+//#define ASSIGNMENT_CHECK
 //#define DISTANCE
 //#define OPERATOR_EXAMPLES
+#define OPERATOR_OVERLOADS
+//#define ARITHMETICAL_OPERATORS
+#define COMPOUND_ASSIGNMENTS
 
 void main()
 {
-	
+	3;
+	-3;//Unary minus
+	5 - 3;//Binary minus
+	5 * 3;//Binary multiplication
+	//*3;//Have no sense
+	int i = 3;
+	i++;//Unary suffix increment
 	setlocale(LC_ALL, "Rus");
 #ifdef INTRO
 	int a;	//Объявление переменной 'a', типа 'int'
@@ -176,6 +271,46 @@ void main()
 	A.print();
 	B.print();
 #endif // DISTANCE
+
+#ifdef OPERATOR_OVERLOADS
+	int a = 2;
+	int b = 3;
+	int c = a + b;
+	a += b;
+	//++a++;
+
+#ifdef ARITHMETICAL_OPERATORS
+	Point A(2, 3);
+	Point B(4, 5);
+	Point C = A + B;
+	C.print();
+	Point D = A - B;//Неявный вызов оператора
+	D.print();
+	(A*B).print();
+	//Point E = A.operator/(B);//Явный вызов оператора. Мы его явно вызываем, как обычный метод
+	Point E = operator/(A, B);//Явный вызов глобального оператора.
+	E.print();
+#endif // ARITHMETICAL_OPERATORS
+
+#ifdef COMPOUND_ASSIGNMENTS
+	Point A(2, 3);
+	Point B(4, 5);
+	A += B;
+	A.print();
+	/*++A;
+	A.print();
+	(A++).print();
+	A.print();*/
+	
+	cout << A++ << endl;
+	cout << A << endl;
+	cout << ++A << endl;
+	cout << A << endl;
+	++A++;
+#endif
+
+#endif // OPERATOR_OVERLOADS
+
 
 }
 
@@ -242,14 +377,14 @@ if(четотам)
 	++ - перегружается;
 	*  - перегружаетсяж
 	** - НЕ перегружается;
-2) Не все существующие операторы можно перегрузить. 
+2) Не все существующие операторы можно перегрузить.
    Не перегружаются:
-    :: - scope operator (оператор разрешения видимости);
-    ?: - тернарный оператор;
-    .  - оператор прямого доступа;
-    .* - 
-    #  - preprocessor directive
-    ## - preprocessor concatenation
+	:: - scope operator (оператор разрешения видимости);
+	?: - тернарный оператор;
+	.  - оператор прямого доступа;
+	.* -
+	#  - preprocessor directive
+	## - preprocessor concatenation
 3) Перегруженные операторы сохраняют приоритет;
 4) Нельзя переопределить поведение операторов со встроенными типами;
 ------------------------------------------
