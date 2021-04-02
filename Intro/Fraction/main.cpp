@@ -3,6 +3,11 @@ using namespace std;
 
 #define tab "\t"
 
+class Fraction;		//Class declaration - Объявление класса
+Fraction operator+(Fraction left, Fraction right);	//Прототип оператора +
+Fraction operator-(Fraction left, Fraction right);
+Fraction operator*(Fraction left, Fraction right);
+Fraction operator/(Fraction left, Fraction right);
 class Fraction
 {
 	bool minus;//НУЖНО РЕАЛИЗОВАТЬ!!!
@@ -136,7 +141,35 @@ public:
 #ifdef DEBUG
 		cout << "Destructor:\t" << this << endl;
 #endif // DEBUG
+	}
 
+	Fraction& operator=(const Fraction& other)
+	{
+		this->minus = other.minus;
+		this->integer = other.integer;
+		this->numerator = other.numerator;
+		this->denominator = other.denominator;
+#ifdef DEBUG
+		cout << "CopyAssignment:\t" << this << endl;
+#endif // DEBUG
+		return *this;
+	}
+
+	Fraction& operator+=(const Fraction& other)
+	{
+		return *this = *this + other;
+	}
+	Fraction& operator-=(const Fraction& other)
+	{
+		return *this = *this - other;
+	}
+	Fraction& operator*=(const Fraction& other)
+	{
+		return *this = *this*other;
+	}
+	Fraction& operator/=(const Fraction& other)
+	{
+		return *this = *this/other;
 	}
 
 	//				Methods:
@@ -221,7 +254,7 @@ ostream& operator<<(ostream& os, const Fraction& obj)
 }
 
 //#define CONSTRUCTOR_CHECK
-#define OPERATORS_CHECK
+//#define ARITHMETICAL_OPERATORS_CHECK
 
 void main()
 {
@@ -246,9 +279,10 @@ void main()
 	double b = 3.5;
 	cout << a * b << endl;*/
 
-#ifdef OPERATORS_CHECK
 	Fraction A(2, 3, 4);
-	Fraction B(-5, 6, 7);
+	Fraction B(5, 6, 7);
+
+#ifdef ARITHMETICAL_OPERATORS_CHECK
 	cout << A << tab << B << endl;
 	cout << A << " + " << B << " = " << A + B << endl;
 	cout << B << " - " << B << " = " << B - B << endl;
@@ -259,5 +293,12 @@ void main()
 	cout << A << tab << B << endl;
 #endif // OPERATORS_CHECK
 
-
+	A += B;
+	cout << A << endl;
+	A -= B;
+	cout << A << endl;;
+	A *= B;
+	cout << A << endl;
+	A /= B;
+	cout << A << endl;
 }
