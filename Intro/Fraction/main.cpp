@@ -315,6 +315,32 @@ Fraction operator/(Fraction left, Fraction right)
 	return result.reduce();
 }
 
+bool operator==(Fraction left, Fraction right)
+{
+	left.to_improper().reduce();
+	right.to_improper().reduce();
+	/*if (left.get_numerator()*right.get_denominator() == right.get_numerator()*left.get_denominator())
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}*/
+	/*if (left.get_numerator() == right.get_numerator() && left.get_denominator() == right.get_denominator())
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}*/
+	return left.get_numerator() == right.get_numerator() && left.get_denominator() == right.get_denominator();
+}
+bool operator!=(const Fraction& left, const Fraction& right)
+{
+	return !(left == right);
+}
 
 ostream& operator<<(ostream& os, const Fraction& obj)
 {
@@ -332,7 +358,8 @@ ostream& operator<<(ostream& os, const Fraction& obj)
 //#define ARITHMETICAL_OPERATORS_CHECK
 //#define COMPAUND_ASSIGNMENTS_CHECK
 //#define INCREMENTS_CHECK
-#define TYPE_CONVERSIONS
+//#define TYPE_CONVERSIONS
+#define COMPARISON_OPERATORS
 
 void main()
 {
@@ -398,7 +425,6 @@ void main()
 	cout << typeid(3 + 2.5).name() << endl;
 #endif // INCREMENTS_CHECK
 
-
 #ifdef TYPE_CONVERSIONS
 	/*
 	-------------------------------------------
@@ -452,5 +478,21 @@ void main()
 	cout << C << endl;
 	cout << (double)C << endl;
 #endif // TYPE_CONVERSIONS
+
+#ifdef COMPARISON_OPERATORS
+	Fraction A(1, 2);
+	Fraction B(5, 11);
+	/*if (A == B)
+	{
+		cout << "Fractions equal" << endl;
+	}
+	else
+	{
+		cout << "Fractions different" << endl;
+	}*/
+	//cout << "Fractions " << (A == B ? "equal" : "different") << endl;
+	cout << (A == B) << endl;
+	cout << (A != B) << endl;
+#endif // COMPARISON_OPERAOTRS
 
 }
