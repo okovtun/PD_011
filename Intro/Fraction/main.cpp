@@ -3,6 +3,8 @@ using namespace std;
 
 #define tab "\t"
 
+#define DEBUG
+
 class Fraction;		//Class declaration - Объявление класса
 Fraction operator+(Fraction left, Fraction right);	//Прототип оператора +
 Fraction operator-(Fraction left, Fraction right);
@@ -85,7 +87,7 @@ public:
 		this->denominator = 1;
 		cout << "Constructor0:\t" << this << endl;
 	}
-	explicit Fraction(int integer)
+	explicit Fraction(int integer)	//explicit - явный
 	{
 		this->minus = false;
 		this->plus = false;
@@ -99,6 +101,24 @@ public:
 		}
 #ifdef DEBUG
 		cout << "Constructor1:\t" << this << endl;
+#endif // DEBUG
+	}
+	Fraction(double decimal)
+	{
+		decimal += 1e-10;
+		minus = false;
+		if (decimal < 0)
+		{
+			minus = true;
+			decimal = -decimal;
+		}
+		integer = decimal;
+		decimal -= integer;
+		denominator = 1e+9;
+		numerator = decimal * denominator;
+		reduce();
+#ifdef DEBUG
+		cout << "Constructor double:\t" << this << endl;
 #endif // DEBUG
 
 	}
@@ -188,9 +208,15 @@ public:
 	}
 
 	//				Type cast operators:
-	operator int()const
+	explicit operator int()const
 	{
 		return minus ? -integer : integer;
+	}
+	explicit operator double()const
+	{
+		double number = integer + (double)numerator / denominator;
+		if (minus)number = -number;
+		return number;
 	}
 
 	//				Methods:
@@ -305,6 +331,7 @@ ostream& operator<<(ostream& os, const Fraction& obj)
 //#define CONSTRUCTOR_CHECK
 //#define ARITHMETICAL_OPERATORS_CHECK
 //#define COMPAUND_ASSIGNMENTS_CHECK
+//#define INCREMENTS_CHECK
 #define TYPE_CONVERSIONS
 
 void main()
@@ -357,6 +384,7 @@ void main()
 	cout << A << endl;
 #endif // COMPAUND_ASSIGNMENTS_CHECK
 
+#ifdef INCREMENTS_CHECK
 	Fraction reduce(840, 3600);
 	cout << reduce.reduce() << endl;
 	cout << Fraction(30, 7).reduce() << endl;
@@ -368,6 +396,8 @@ void main()
 		cout << i << tab;
 	cout << endl;
 	cout << typeid(3 + 2.5).name() << endl;
+#endif // INCREMENTS_CHECK
+
 
 #ifdef TYPE_CONVERSIONS
 	/*
@@ -381,19 +411,23 @@ void main()
 	2. From more to less:	//may cause a loss of data.
 	int    --> char
 	double --> int
--------------------------------------------
-*/
+	-------------------------------------------
+	*/
 
-	int a = 2;		//No coversion
-	double b = 2;	//From less to more
-	int c = b;		//From more to less without loosing data
-	double d = 2.5;	//No converion
-	int e = d;		//From more to less with loosing data  
+	//int a = 2;		//No coversion
+	//double b = 2;	//From less to more
+	//int c = b;		//From more to less without loosing data
+	//double d = 2.5;	//No converion
+	//int e = d;		//From more to less with loosing data  
 
-	Fraction A = 5;	//From other to this. Это преобразование выполняет Single argument constructor
-	cout << sizeof(int) << endl;
-	cout << sizeof(Fraction) << endl;
-	a = A;	//From more to less, possible loss of data
+	//Fraction A = (Fraction)5;	//From other to this. Это преобразование выполняет SINGLE ARGUMENT CONSTRUCTOR
+	Fraction A(5);	//Если конструктор explicit, то его можно вызвать только так.
+	cout << "Fraction A = " << A << endl;
+	/*cout << sizeof(int) << endl;
+	cout << sizeof(Fraction) << endl;*/
+	//Type cast operator
+	int a = (int)A;	//From more to less, possible loss of data (operator int)
+	cout << "int a = " << a << endl;
 	//Type cast operators
 	/*
 	-----------------------------------------
@@ -405,6 +439,18 @@ void main()
 	}
 	-----------------------------------------
 	*/
+
+	/*Fraction B(-3, 4, 5);
+	cout << B << endl;
+	double b = (double)B;
+	cout << b << endl;
+
+	int c = (int)B;
+	cout << c << endl;*/
+
+	Fraction C = 2.3;
+	cout << C << endl;
+	cout << (double)C << endl;
 #endif // TYPE_CONVERSIONS
 
 }
