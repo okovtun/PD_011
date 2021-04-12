@@ -212,7 +212,7 @@ public:
 	{
 		return minus ? -integer : integer;
 	}
-	explicit operator double()const
+	operator double()const
 	{
 		double number = integer + (double)numerator / denominator;
 		if (minus)number = -number;
@@ -340,6 +340,23 @@ bool operator==(Fraction left, Fraction right)
 bool operator!=(const Fraction& left, const Fraction& right)
 {
 	return !(left == right);
+}
+bool operator<(const Fraction& left, const Fraction& right)
+{
+	return (double)left < (double)right;
+}
+bool operator>(const Fraction& left, const Fraction& right)
+{
+	return (double)left > (double)right;
+}
+bool operator>=(const Fraction& left, const Fraction& right)
+{
+	return left > right || left == right;
+	//return left >= right;
+}
+bool operator<=(const Fraction& left, const Fraction& right)
+{
+	return !(left > right);
 }
 
 ostream& operator<<(ostream& os, const Fraction& obj)
@@ -481,7 +498,7 @@ void main()
 
 #ifdef COMPARISON_OPERATORS
 	Fraction A(1, 2);
-	Fraction B(5, 11);
+	Fraction B(5, 10);
 	/*if (A == B)
 	{
 		cout << "Fractions equal" << endl;
@@ -491,8 +508,12 @@ void main()
 		cout << "Fractions different" << endl;
 	}*/
 	//cout << "Fractions " << (A == B ? "equal" : "different") << endl;
+	cout << "Strict:\t";
 	cout << (A == B) << endl;
 	cout << (A != B) << endl;
+	cout << "Not strict:\n";
+	cout << (A <= B) << endl;
+	cout << (A >= B) << endl;
 #endif // COMPARISON_OPERAOTRS
 
 }
