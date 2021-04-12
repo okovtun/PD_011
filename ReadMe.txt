@@ -2,6 +2,13 @@ https://github.com/okovtun/PD_011.git
 https://www.youtube.com/watch?v=OG8eJ5vgXns&list=PLeqyOOqxeiIPInTeBnDUO6ik4Q7bRp2cR&index=1&t=3839s
 
 TODO:
+1. В классе String реализовать оператор [], и использовать его в операторе +;
+2. Оптимизировать оператор + используя стардартные функции C++:
+	http://cplusplus.com/reference/cstring/
+3. В классе String реализовать MoveMethods:
+	http://cplusplus.com/doc/tutorial/classes2/
+
+DONE:
 Реализовать класс Fraction, описывающий простую дробь. 
 В классе должны быть:
 1. все обязательные методы;		DONE
