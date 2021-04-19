@@ -2,6 +2,12 @@ https://github.com/okovtun/PD_011.git
 https://www.youtube.com/watch?v=OG8eJ5vgXns&list=PLeqyOOqxeiIPInTeBnDUO6ik4Q7bRp2cR&index=1&t=3839s
 
 TODO:
+Реализовать класс Binary, описывающий двоичное число. 
+Обеспечить арифметические операции: +, -, *, /;
+и побитовые операции: ! - NOT, | - OR, & - AND, ^ - XOR;
+над двоичными числами.
+
+DONE:
 1. В классе String реализовать оператор [], и использовать его в операторе +;
 2. Оптимизировать оператор + используя стардартные функции C++:
 	http://cplusplus.com/reference/cstring/
