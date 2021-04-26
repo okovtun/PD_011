@@ -5,6 +5,9 @@ Book:
 https://drive.google.com/drive/folders/1wxr2q93yKD3AHFgI5YO_IfLa8rX6gtAc?usp=sharing
 
 TODO:
+Создать ветку distributed_academy, и в ней вынести классы в отдельные файлы;
+
+DONE:
 В проект Academy добавить класс Graduate (Дипломник).
 
 DONE:
