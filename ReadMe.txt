@@ -1,6 +1,8 @@
 https://github.com/okovtun/PD_011.git
 https://www.youtube.com/watch?v=OG8eJ5vgXns&list=PLeqyOOqxeiIPInTeBnDUO6ik4Q7bRp2cR&index=1&t=3839s
 
+Book:
+https://drive.google.com/drive/folders/1wxr2q93yKD3AHFgI5YO_IfLa8rX6gtAc?usp=sharing
 
 TODO:
 В проект Academy добавить класс Graduate (Дипломник).
