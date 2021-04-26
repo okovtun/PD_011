@@ -3,6 +3,14 @@
 #include<ctime>
 using namespace std;
 
+#define HUMAN_TAKE_PARAMETERS	const string& last_name, const string& first_name, unsigned int age
+#define STUDENT_GET_PARAMETERS	const string& speciality, const string& group, double rating
+#define TEACHER_GET_PARAMETERS	const string& speciality, unsigned int experience
+
+#define HUMAN_GIVE_PARAMETERS	last_name, first_name, age
+#define STUDENT_GIVE_PARAMETERS speciality, group, rating
+#define TEACHER_GIVE_PARAMETERS speciality, experience
+
 class Human
 {
 	string last_name;
@@ -101,9 +109,9 @@ public:
 	//		Constructors
 	Student
 	(
-		const string& last_name, const string& first_name, unsigned int age,//Атрибуты базового класса
-		const string& speciality, const string& group, double rating	//Атрибуты нашего класса
-	) :Human(last_name, first_name, age)
+		HUMAN_TAKE_PARAMETERS,//Атрибуты базового класса
+		STUDENT_GET_PARAMETERS	//Атрибуты нашего класса
+	) :Human(HUMAN_GIVE_PARAMETERS)
 	{
 		set_speciality(speciality);
 		set_group(group);
@@ -147,9 +155,9 @@ public:
 	//			Constructurs:
 	Teacher
 	(
-		const string& last_name, const string& first_name, unsigned int age,
-		const string& speciality, unsigned int experience
-	) :Human(last_name, first_name, age)
+		HUMAN_TAKE_PARAMETERS,
+		TEACHER_GET_PARAMETERS
+	) :Human(HUMAN_GIVE_PARAMETERS)
 	{
 		set_speciality(speciality);
 		set_experience(experience);
@@ -168,14 +176,75 @@ public:
 	}
 };
 
+class Graduate :public Student
+{
+	string topic;	//Тема дипломного проекта
+public:
+	const string& get_topic()const
+	{
+		return this->topic;
+	}
+	void set_topic(const string& topic)
+	{
+		this->topic = topic;
+	}
+
+	Graduate
+	(
+		HUMAN_TAKE_PARAMETERS,//Атрибуты базового класса
+		STUDENT_GET_PARAMETERS,	//Атрибуты нашего класса
+		const string& topic
+	) :Student(HUMAN_GIVE_PARAMETERS, STUDENT_GIVE_PARAMETERS),
+		topic(topic)
+	{
+		cout << "GConstroctor:\t" << this << endl;
+	}
+	~Graduate()
+	{
+		cout << "GDestroctor:\t" << this << endl;
+	}
+	void info()const
+	{
+		Student::info();
+		cout << "Тема дипломного проекта: " << topic << endl;
+	}
+};
+
+#define INHERITANCE_CHECK
+
 void main()
 {
 	setlocale(LC_ALL, "");
+
+#ifdef INHERITANCE_CHECK
 	/*Human human("Тупенко", "Василий", 18);
-	human.info();*/
+human.info();*/
 	Student vasya("Тупенко", "Василий", 18, "Программирование", "BV_011", 4.5);
 	vasya.info();
 
 	Teacher teacher("Einstein", "Albert", 150, "Phisics", 120);
 	teacher.info();
+
+	Graduate Tony(
+		"Montana", "Antonio", 25,
+		"Современные технологии продаж", "BV_011", 80,
+		"Распространение кокаина");
+	Tony.info();
+#endif // INHERITANCE_CHECK
+
 }
+
+/*int bin_to_dec(char str[])
+{
+	if (!is_bin_number(str))return 0;
+	int decimal = 0;
+	for (int i = 0; str[i]; i++)
+	{
+		if (str[i] != ' ')
+		{
+			decimal *= 2;
+			decimal += str[i] - '0';
+		}
+	}
+	return decimal;
+}*/
