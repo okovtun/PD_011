@@ -23,3 +23,8 @@ void Graduate::info()const
 	Student::info();
 	cout << "Тема дипломного проекта: " << topic << endl;
 }
+
+ostream & operator<<(ostream & os, const Graduate & obj)
+{
+	return os << (Student)obj << obj.get_topic();
+}

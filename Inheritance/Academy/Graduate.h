@@ -11,3 +11,5 @@ public:
 	~Graduate();
 	void info()const;
 };
+
+ostream& operator<<(ostream& os, const Graduate& obj);
