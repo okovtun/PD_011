@@ -5,6 +5,11 @@ Book:
 https://drive.google.com/drive/folders/1wxr2q93yKD3AHFgI5YO_IfLa8rX6gtAc?usp=sharing
 
 TODO:
+1. ¬ классе Itertor перегрузить оператор разыменовани€;
+2. ¬ классе ForwardList написать конструктор, который позволит создавать объекты следующим образом:
+	ForwardList list = { 3, 5, 8, 13, 21 };
+
+DONE:
 ¬ класс ForwardList добавить:
 1. метод erase(), который удал€ет элемент по индексу;		DONE
 2. Ќаписать деструктор, чтобы он очищал список перед удалением;DONE
