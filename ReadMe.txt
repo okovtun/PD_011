@@ -6,9 +6,9 @@ https://drive.google.com/drive/folders/1wxr2q93yKD3AHFgI5YO_IfLa8rX6gtAc?usp=sha
 
 TODO:
 В класс ForwardList добавить:
-1. метод erase(), который удаляет элемент по индексу;
-2. Написать деструктор, чтобы он очищал список перед удалением;
-3. Добавить CopyMethods;
+1. метод erase(), который удаляет элемент по индексу;		DONE
+2. Написать деструктор, чтобы он очищал список перед удалением;DONE
+3. Добавить CopyMethods;		DONE
 
 DONE:
 В класс ForwardList добавить метод void push_back(int Data), который добавляет элемент в конец списка.
