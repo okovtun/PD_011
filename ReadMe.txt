@@ -5,6 +5,9 @@ Book:
 https://drive.google.com/drive/folders/1wxr2q93yKD3AHFgI5YO_IfLa8rX6gtAc?usp=sharing
 
 TODO:
+Вынести методы классов Iterator и ForwardList в отдельные файлы.
+
+DONE:
 1. В классе Itertor перегрузить оператор разыменования;
 2. В классе ForwardList написать конструктор, который позволит создавать объекты следующим образом:
 	ForwardList list = { 3, 5, 8, 13, 21 };

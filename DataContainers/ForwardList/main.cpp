@@ -1,106 +1,80 @@
-﻿#include<iostream>
-using namespace std;
+﻿#include"Element.h"
+#include"Element.cpp"
 
-#define tab "\t"
-#define delimiter "\n----------------------------------------------------\n"
-
-template<typename T>class Iterator;
-template<typename T>class ForwardList;
-
-template<typename T>
-class Element
-{
-	T Data;		//Значение элемента
-	Element<T>* pNext;	//Указатель на следующий элемент
-	static int count;
-public:
-	Element(T Data, Element<T>* pNext = nullptr) :Data(Data), pNext(pNext)
-	{
-		count++;
-#ifdef DEBUG
-		cout << "EConstructor:\t" << this << endl;
-#endif // DEBUG
-
-	}
-	~Element()
-	{
-		count--;
-#ifdef DEBUG
-		cout << "EDestructor:\t" << this << endl;
-#endif // DEBUG
-
-	}
-	friend class Iterator<T>;
-	friend class ForwardList<T>;
-};
-
-template<typename T>
-int Element<T>::count = 0;	//Инициализация статической переменной
-
-template<typename T>
-class Iterator
+template<typename T>class Iterator
 {
 	Element<T>* Temp;
 public:
-	Iterator(Element<T>* Temp = nullptr)
-	{
-		this->Temp = Temp;
-#ifdef DEBUG
-		cout << "IConstructor:\t" << this << endl;
-#endif // DEBUG
-
-	}
-	~Iterator()
-	{
-#ifdef DEBUG
-		cout << "IDestructor:\t" << this << endl;
-#endif // DEBUG
-
-	}
+	Iterator(Element<T>* Temp = nullptr);
+	~Iterator();
 
 	//			Operators:
-	Iterator<T>& operator++()
-	{
-		Temp = Temp->pNext;
-		return *this;
-	}
+	Iterator<T>& operator++();
+	Iterator<T> operator++(int);
 
-	Iterator<T> operator++(int)
-	{
-		Iterator<T> old = *this;
-		Temp = Temp->pNext;
-		return old;
-	}
+	bool operator==(const Iterator<T>& other)const;
+	bool operator!=(const Iterator<T>& other)const;
 
-	bool operator==(const Iterator<T>& other)const
-	{
-		return this->Temp == other.Temp;
-	}
-	bool operator!=(const Iterator<T>& other)const
-	{
-		return this->Temp != other.Temp;
-	}
+	Element<T>*& operator->();
+	Element<T>* get_current_address();
 
-	Element<T>*& operator->()
-	{
-		return Temp;
-	}
-	Element<T>* get_current_address()
-	{
-		return Temp;
-	}
-
-	const T& operator*()const
-	{
-		return Temp->Data;
-	}
-	T& operator*()
-	{
-		return Temp->Data;
-	}
+	const T& operator*()const;
+	T& operator*();
 };
-template<typename T>
-class ForwardList
+
+template<typename T>Iterator<T>::Iterator(Element<T>* Temp)
+{
+	this->Temp = Temp;
+#ifdef DEBUG
+	cout << "IConstructor:\t" << this << endl;
+#endif // DEBUG
+}
+template<typename T>Iterator<T>::~Iterator()
+{
+#ifdef DEBUG
+	cout << "IDestructor:\t" << this << endl;
+#endif // DEBUG
+
+}
+
+//			Operators:
+template <typename T>Iterator<T>& Iterator<T>::operator++()
+{
+	Temp = Temp->pNext;
+	return *this;
+}
+template <typename T>Iterator<T> Iterator<T>::operator++(int)
+{
+	Iterator<T> old = *this;
+	Temp = Temp->pNext;
+	return old;
+}
+template <typename T>bool Iterator<T>::operator==(const Iterator<T>& other)const
+{
+	return this->Temp == other.Temp;
+}
+template <typename T>bool Iterator<T>::operator!=(const Iterator<T>& other)const
+{
+	return this->Temp != other.Temp;
+}
+template <typename T>Element<T>*& Iterator<T>::operator->()
+{
+	return Temp;
+}
+template <typename T>Element<T>* Iterator<T>::get_current_address()
+{
+	return Temp;
+}
+template <typename T>const T& Iterator<T>::operator*()const
+{
+	return Temp->Data;
+}
+template <typename T>T& Iterator<T>::operator*()
+{
+	return Temp->Data;
+}
+
+template<typename T>class ForwardList
 {
 	Element<T>* Head;
 	int size;
