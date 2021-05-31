@@ -4,13 +4,17 @@ using namespace std;
 #define tab "\t"
 #define delimiter "\n----------------------------------------------------\n"
 
+template<typename T>class Iterator;
+template<typename T>class ForwardList;
+
+template<typename T>
 class Element
 {
-	int Data;		//Значение элемента
-	Element* pNext;	//Указатель на следующий элемент
+	T Data;		//Значение элемента
+	Element<T>* pNext;	//Указатель на следующий элемент
 	static int count;
 public:
-	Element(int Data, Element* pNext = nullptr) :Data(Data), pNext(pNext)
+	Element(T Data, Element<T>* pNext = nullptr) :Data(Data), pNext(pNext)
 	{
 		count++;
 #ifdef DEBUG
@@ -26,17 +30,19 @@ public:
 #endif // DEBUG
 
 	}
-	friend class Iterator;
-	friend class ForwardList;
+	friend class Iterator<T>;
+	friend class ForwardList<T>;
 };
 
-int Element::count = 0;	//Инициализация статической переменной
+template<typename T>
+int Element<T>::count = 0;	//Инициализация статической переменной
 
+template<typename T>
 class Iterator
 {
-	Element* Temp;
+	Element<T>* Temp;
 public:
-	Iterator(Element* Temp = nullptr)
+	Iterator(Element<T>* Temp = nullptr)
 	{
 		this->Temp = Temp;
 #ifdef DEBUG
@@ -53,62 +59,62 @@ public:
 	}
 
 	//			Operators:
-	Iterator& operator++()
+	Iterator<T>& operator++()
 	{
 		Temp = Temp->pNext;
 		return *this;
 	}
 
-	Iterator operator++(int)
+	Iterator<T> operator++(int)
 	{
-		Iterator old = *this;
+		Iterator<T> old = *this;
 		Temp = Temp->pNext;
 		return old;
 	}
 
-	bool operator==(const Iterator& other)const
+	bool operator==(const Iterator<T>& other)const
 	{
 		return this->Temp == other.Temp;
 	}
-	bool operator!=(const Iterator& other)const
+	bool operator!=(const Iterator<T>& other)const
 	{
 		return this->Temp != other.Temp;
 	}
 
-	Element*& operator->()
+	Element<T>*& operator->()
 	{
 		return Temp;
 	}
-	Element* get_current_address()
+	Element<T>* get_current_address()
 	{
 		return Temp;
 	}
 
-	const int& operator*()const
+	const T& operator*()const
 	{
 		return Temp->Data;
 	}
-	int& operator*()
+	T& operator*()
 	{
 		return Temp->Data;
 	}
 };
-
+template<typename T>
 class ForwardList
 {
-	Element* Head;
+	Element<T>* Head;
 	int size;
 public:
-	Iterator getHead()
+	Iterator<T> getHead()
 	{
 		return Head;
 	}
 
-	Iterator begin()
+	Iterator<T> begin()
 	{
 		return Head;
 	}
-	Iterator end()
+	Iterator<T> end()
 	{
 		return nullptr;
 	}
@@ -120,19 +126,19 @@ public:
 		size = 0;
 		cout << "LConstructor:\t" << this << endl;
 	}
-	ForwardList(initializer_list<int> il) :ForwardList()//Делегирование конструктора по умолчанию
+	ForwardList(initializer_list<T> il) :ForwardList()//Делегирование конструктора по умолчанию
 	{
 		//il - это контейнер, такой же, как наш ForwardList
 		//У любого контейнера есть методы begin() и end(), 
 		//которые возвращают указатели на начало и конец контейнера.
 		cout << typeid(il.begin()).name() << endl;
-		for (int const* it = il.begin(); it != il.end(); it++)
+		for (T const* it = il.begin(); it != il.end(); it++)
 		{
 			//it - это итератор, который проходит по il.
 			push_back(*it);
 		}
 	}
-	ForwardList(const ForwardList& other)
+	ForwardList(const ForwardList<T>& other)
 	{
 		Element* Temp = other.Head;
 		while (Temp)
@@ -149,11 +155,11 @@ public:
 	}
 
 	//			Operators:
-	ForwardList& operator=(const ForwardList& other)
+	ForwardList<T>& operator=(const ForwardList<T>& other)
 	{
 		if (this == &other)return *this;
 		while (Head)pop_front();
-		Element* Temp = other.Head;
+		Element<T>* Temp = other.Head;
 		while (Temp)
 		{
 			push_back(Temp->Data);
@@ -164,16 +170,16 @@ public:
 	}
 
 	//			Adding elements:
-	void push_front(int Data)
+	void push_front(T Data)
 	{
 		/*Element* New = new Element(Data);
 		New->pNext = Head;
 		Head = New;*/
 
-		Head = new Element(Data, Head);
+		Head = new Element<T>(Data, Head);
 		size++;
 	}
-	void push_back(int Data)
+	void push_back(T Data)
 	{
 		//Этот метод НЕ умеет работать с пустым списком
 		if (Head == nullptr)	//ЕСЛИ список пуст
@@ -182,14 +188,14 @@ public:
 			return;
 		}
 		//Element* New = new Element(Data);
-		Element* Temp = Head;
+		Element<T>* Temp = Head;
 		while (Temp->pNext != nullptr)
 			Temp = Temp->pNext;
-		Temp->pNext = new Element(Data);
+		Temp->pNext = new Element<T>(Data);
 		size++;
 	}
 
-	void insert(int Data, int index)
+	void insert(T Data, int index)
 	{
 		if (index == 0)
 		{
@@ -197,13 +203,13 @@ public:
 			return;
 		}
 		//Element* New = new Element(Data);
-		Element* Temp = Head;
+		Element<T>* Temp = Head;
 		for (int i = 0; i < index - 1; i++, Temp = Temp->pNext)
 			if (Temp->pNext == nullptr)break;
 		//Temp = Temp->pNext;
 		/*New->pNext = Temp->pNext;
 		Temp->pNext = New;*/
-		Temp->pNext = new Element(Data, Temp->pNext);
+		Temp->pNext = new Element<T>(Data, Temp->pNext);
 		size++;
 	}
 
@@ -211,7 +217,7 @@ public:
 	void pop_front()
 	{
 		//1) Прежде чем исключить элемент из списка, нужно запомнить его адрес, для того, чтобы можно было удалить его из памяти.
-		Element* Temp = Head;
+		Element<T>* Temp = Head;
 		//2) Исключаем элемент из списка:
 		Head = Head->pNext;
 		//3) Удаляем элемент из памяти:
@@ -220,7 +226,7 @@ public:
 	}
 	void pop_back()
 	{
-		Element* Temp = Head;
+		Element<T>* Temp = Head;
 		while (Temp->pNext->pNext != nullptr)
 			Temp = Temp->pNext;	//Переход на следующий элемент
 		delete Temp->pNext;
@@ -236,11 +242,11 @@ public:
 			return;
 		}
 		//1)Доходим до нужного элемента:
-		Element* Temp = Head;
+		Element<T>* Temp = Head;
 		for (int i = 0; i < index - 1; i++)
 			Temp = Temp->pNext;
 		//2)Запоминаем адрес удаляемого элемента:
-		Element* to_del = Temp->pNext;
+		Element<T>* to_del = Temp->pNext;
 		//3)Исключаем удаляемый элемент из списка:
 		Temp->pNext = Temp->pNext->pNext;
 		//4)Удаляем элемент из памяти:
@@ -260,18 +266,19 @@ public:
 		//for(Initialisation; Condition; Expression)...
 		//for (Element* Temp = Head; Temp; /*Temp=Temp->pNext*/Temp++)
 			//cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
-		for (Iterator Temp = Head; Temp != nullptr; Temp++)
+		for (Iterator<T> Temp = Head; Temp != nullptr; Temp++)
 			//cout << Temp.get_current_address() << tab << Temp->Data << tab << Temp->pNext << endl;
 			cout << *Temp << tab;
 		cout << endl;
 		cout << "Количество элементов в списке: " << size << endl;
-		cout << "Общее количество элементов:    " << Element::count << endl;
+		cout << "Общее количество элементов:    " << Element<T>::count << endl;
 	}
 };
 
 //#define BASE_CHECK
 //#define ITERATOR_CHECK
 //#define RANGE_BASED_ARRAY
+//#define RANGE_BASED_LIST
 
 void main()
 {
@@ -279,7 +286,7 @@ void main()
 #ifdef BASE_CHECK
 	int n;
 	cout << "Введите размер списка: "; cin >> n;
-	ForwardList list;
+	ForwardList<int> list;
 	for (int i = 0; i < n; i++)
 	{
 		//list.push_front(rand() % 100);
@@ -342,9 +349,18 @@ list.print();*/
 	cout << endl;
 #endif // RANGE_BASED_ARRAY
 
-	ForwardList list = { 3,5,8,13,21 };
+#ifdef RANGE_BASED_LIST
+	ForwardList<int> list = { 3,5,8,13,21 };
 	list.print();
 	for (int i : list)
+	{
+		cout << i << tab;
+	}
+	cout << endl;
+#endif // RANGE_BASED_LIST
+
+	ForwardList<double> list = { 2.5, 3.14, 8.3, 5.4, 7.2 };
+	for (double i : list)
 	{
 		cout << i << tab;
 	}
