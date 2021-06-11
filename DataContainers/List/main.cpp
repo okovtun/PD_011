@@ -52,7 +52,15 @@ class List
 #ifdef DEBUG
 			cout << "BITDestructor:\t" << this << endl;
 #endif // DEBUG
+		}
 
+		bool operator==(const BaseIterator& other)const
+		{
+			return this->Temp == other.Temp;
+		}
+		bool operator!=(const BaseIterator& other)const
+		{
+			return this->Temp != other.Temp;
 		}
 		const int& operator*()const
 		{
@@ -104,14 +112,14 @@ public:
 			return old;
 		}
 
-		bool operator==(const Iterator& other)const
+		/*bool operator==(const Iterator& other)const
 		{
 			return this->Temp == other.Temp;
 		}
 		bool operator!=(const Iterator& other)const
 		{
 			return this->Temp != other.Temp;
-		}
+		}*/
 	};
 	class ReverseIterator:public BaseIterator
 	{
@@ -152,14 +160,14 @@ public:
 			return old;
 		}
 
-		bool operator==(const ReverseIterator& other)const
+		/*bool operator==(const ReverseIterator& other)const
 		{
 			return this->Temp == other.Temp;
 		}
 		bool operator!=(const ReverseIterator& other)const
 		{
 			return this->Temp != other.Temp;
-		}
+		}*/
 	};
 	size_t getSize()const
 	{
