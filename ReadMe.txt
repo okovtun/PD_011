@@ -12,7 +12,7 @@ TODO:
 5. for(int i:list)cout << i << tab; cout << endl;	DONE	
 	---------------------------------------------------------------------------------
 6. ¬ класс List::Iterator добавить operator--() и написать проверочный код дл€ него;
-7. ¬ класс List добавить методы:
+7. ¬ класс List добавить методы:					DONE
 	ReverseIterator rbegin();
 	ReverseIterator rend();
 	а так же класс ReverseIterator;
