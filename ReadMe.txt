@@ -21,7 +21,7 @@ TODO:
 	----------------------------------------------------------------------------------
 8. CopyMethods:CopyConstructor,CopyAssignment;	DONE
 9. MoveMethods:MoveConstructor,MoveAssignment;
-10. operator+ перегрузить с использованием Итератора;
+10. operator+ перегрузить с использованием Итератора;	DONE
 11. Шаблонизировать;
 12. Разделить на файлы;
 
