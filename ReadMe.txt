@@ -19,10 +19,10 @@ TODO:
 	которые позволят проходить по списку в обратном направлении - от хвоста до головы.
 	Написать проверочный код;
 	----------------------------------------------------------------------------------
-8. CopyMethods:CopyConstructor,CopyAssignment;	DONE
-9. MoveMethods:MoveConstructor,MoveAssignment;
+8. CopyMethods:CopyConstructor,CopyAssignment;		DONE
+9. MoveMethods:MoveConstructor,MoveAssignment;		DONE
 10. operator+ перегрузить с использованием Итератора;	DONE
-11. Шаблонизировать;
+11. Шаблонизировать в ветке InheritIteratorInListTemplated;
 12. Разделить на файлы;
 
 DONE:
