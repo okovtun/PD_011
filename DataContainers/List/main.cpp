@@ -1,5 +1,6 @@
 ﻿#pragma warning(disable:4326)
 #include<iostream>
+#include<string>
 using namespace std;
 using std::cin;
 using std::cout;
@@ -8,16 +9,18 @@ using std::endl;
 #define tab "\t"
 #define delimiter "\n-----------------------------------------------------\n"
 
-#define DEBUG
+//#define DEBUG
+
+template<typename T>
 class List
 {
 	class Element
 	{
-		int Data;		//Значение элемента
+		T Data;		//Значение элемента
 		Element* pNext;	//Указатель на следующий элемент
 		Element* pPrev;	//Указатель на предыдущий элемент
 	public:
-		Element(int Data, Element* pNext = nullptr, Element* pPrev = nullptr)
+		Element(T Data, Element* pNext = nullptr, Element* pPrev = nullptr)
 		{
 			this->Data = Data;
 			this->pNext = pNext;
@@ -32,7 +35,7 @@ class List
 			cout << "EDestructor:\t" << this << endl;
 #endif // DEBUG
 		}
-		friend class List;
+		friend class List<T>;
 	};
 	Element* Head;	//Указатель на начальный элемент списка
 	Element* Tail;	//Указатель на конечный элемент списка
@@ -64,14 +67,17 @@ class List
 		{
 			return this->Temp != other.Temp;
 		}
-		const int& operator*()const
+		const T& operator*()const
 		{
 			return Temp->Data;
 		}
-		int& operator*()
+		T& operator*()
 		{
 			return Temp->Data;
 		}
+
+		friend class Iterator;
+		friend class ReverseIterator;
 	};
 public:
 	class Iterator :public BaseIterator
@@ -92,36 +98,27 @@ public:
 
 		Iterator& operator++()	//Prefix increment
 		{
-			Temp = Temp->pNext;
+			BaseIterator::Temp = BaseIterator::Temp->pNext;
 			return *this;
 		}
 
 		Iterator operator++(int)
 		{
 			Iterator old = *this;
-			Temp = Temp->pNext;
+			BaseIterator::Temp = BaseIterator::Temp->pNext;
 			return old;
 		}
 		Iterator& operator--()
 		{
-			Temp = Temp->pPrev;
+			BaseIterator::Temp = BaseIterator::Temp->pPrev;
 			return *this;
 		}
 		Iterator operator--(int)
 		{
 			Iterator old = *this;
-			Temp = Temp->pPrev;
+			BaseIterator::Temp = BaseIterator::Temp->pPrev;
 			return old;
 		}
-
-		/*bool operator==(const Iterator& other)const
-		{
-			return this->Temp == other.Temp;
-		}
-		bool operator!=(const Iterator& other)const
-		{
-			return this->Temp != other.Temp;
-		}*/
 	};
 	class ReverseIterator :public BaseIterator
 	{
@@ -141,35 +138,26 @@ public:
 
 		ReverseIterator& operator++()
 		{
-			Temp = Temp->pPrev;
+			BaseIterator::Temp = BaseIterator::Temp->pPrev;
 			return *this;
 		}
 		ReverseIterator operator++(int)
 		{
 			ReverseIterator old = *this;
-			Temp = Temp->pPrev;
+			BaseIterator::Temp = BaseIterator::Temp->pPrev;
 			return old;
 		}
 		ReverseIterator& operator--()
 		{
-			Temp = Temp->pNext;
+			BaseIterator::Temp = BaseIterator::Temp->pNext;
 			return *this;
 		}
 		ReverseIterator operator--(int)
 		{
 			ReverseIterator old = *this;
-			Temp = Temp->pNext;
+			BaseIterator::Temp = BaseIterator::Temp->pNext;
 			return old;
 		}
-
-		/*bool operator==(const ReverseIterator& other)const
-		{
-			return this->Temp == other.Temp;
-		}
-		bool operator!=(const ReverseIterator& other)const
-		{
-			return this->Temp != other.Temp;
-		}*/
 	};
 	size_t getSize()const
 	{
@@ -211,18 +199,18 @@ public:
 	{
 		while (size--)push_back(0);
 	}
-	List(const initializer_list<int>& il) :List()
+	List(const initializer_list<T>& il) :List()
 	{
 		cout << typeid(il.begin()).name() << endl;
-		for (int const* it = il.begin(); it != il.end(); it++)
+		for (T const* it = il.begin(); it != il.end(); it++)
 			push_back(*it);
 	}
-	List(const List& other) :List()
+	List(const List<T>& other) :List()
 	{
-		for (int i : other)push_back(i);
+		for (T i : other)push_back(i);
 		cout << "CopyConstuctor:\t" << this << endl;
 	}
-	List(List&& other)
+	List(List<T>&& other)
 	{
 		this->size = other.size;
 		this->Head = other.Head;
@@ -238,14 +226,14 @@ public:
 	}
 
 	//				Operators:
-	List& operator=(const List& other)
+	List<T>& operator=(const List<T>& other)
 	{
 		if (this == &other)return *this;
 		while (Head)pop_front();
-		for (int i : other)push_back(i);
+		for (T i : other)push_back(i);
 		cout << "CopyAssignment:\t" << this << endl;
 	}
-	List& operator=(List&& other)
+	List<T>& operator=(List<T>&& other)
 	{
 		while (Head)pop_front();
 		this->size = other.size;
@@ -255,7 +243,7 @@ public:
 		cout << "MoveAssignment:\t" << this << endl;
 		return *this;
 	}
-	int& operator[](size_t index)
+	T& operator[](size_t index)
 	{
 		Element* Temp;
 		if (index < size / 2)
@@ -272,7 +260,7 @@ public:
 	}
 
 	//				Adding elements:
-	void push_front(int Data)
+	void push_front(T Data)
 	{
 		if (Head == nullptr && Tail == nullptr)
 		{
@@ -287,7 +275,7 @@ public:
 		Head = Head->pPrev = new Element(Data, Head);
 		size++;
 	}
-	void push_back(int Data)
+	void push_back(T Data)
 	{
 		if (Head == nullptr && Tail == nullptr)
 		{
@@ -302,7 +290,7 @@ public:
 		Tail = Tail->pNext = new Element(Data, nullptr, Tail);
 		size++;
 	}
-	void insert(unsigned int Index, int Data)
+	void insert(unsigned int Index, T Data)
 	{
 		if (Index > size)return;
 		if (Index == 0)
@@ -414,10 +402,11 @@ public:
 	}
 };
 
-List operator+(const List& left, const List& right)
+template<typename T>
+List<T> operator+(const List<T>& left, const List<T>& right)
 {
-	List cat = left;
-	for (int i : right)cat.push_back(i);
+	List<T> cat = left;
+	for (T i : right)cat.push_back(i);
 	return cat;
 }
 
@@ -425,6 +414,8 @@ List operator+(const List& left, const List& right)
 //#define SIZE_CONSTRUCTOR_AND_INDEX_OPERATOR
 //#define ITERATORS_CHECK
 //#define COPY_METHODS_CHECK
+//#define MOVE_METHODS_CHECK
+#define TEMPLATES_CHECK
 
 void main()
 {
@@ -489,12 +480,21 @@ void main()
 	list2.print();
 #endif // DEBUG
 
-	List list1 = { 3,5,8,13,21 };
-	List list2 = { 34,55,89 };
+#ifdef MOVE_METHODS_CHECK
+	List<int> list1 = { 3,5,8,13,21 };
+	List<int> list2 = { 34,55,89 };
 	cout << delimiter << endl;
 	//List list3 = list1 + list2;	//MoveConstructor
-	List list3;
+	List<int> list3;
 	list3 = list1 + list2;	//MoveAssignment
 	cout << delimiter << endl;
 	list3.print();
+#endif // MOVE_METHODS_CHECK
+
+	List<int> i_list = { 3,5,8,13,21 };
+	i_list.print();
+	List<double> d_list = { 2.5, 3.14, 5.2, 8.3 };
+	d_list.print();
+	List<string> s_list = { "What", "can", "I", "do" };
+	for (string i : s_list)cout << i << tab; cout << endl;
 }
