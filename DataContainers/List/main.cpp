@@ -20,21 +20,8 @@ class List
 		Element* pNext;	//Указатель на следующий элемент
 		Element* pPrev;	//Указатель на предыдущий элемент
 	public:
-		Element(T Data, Element* pNext = nullptr, Element* pPrev = nullptr)
-		{
-			this->Data = Data;
-			this->pNext = pNext;
-			this->pPrev = pPrev;
-#ifdef DEBUG
-			cout << "EConstructor:\t" << this << endl;
-#endif // DEBUG
-		}
-		~Element()
-		{
-#ifdef DEBUG
-			cout << "EDestructor:\t" << this << endl;
-#endif // DEBUG
-		}
+		Element(T Data, Element* pNext = nullptr, Element* pPrev = nullptr);
+		~Element();
 		friend class List<T>;
 	};
 	Element* Head;	//Указатель на начальный элемент списка
@@ -194,6 +181,22 @@ public:
 	void print();
 	void print_reverse();
 };
+
+template<typename T>List<T>::Element::Element(T Data, Element* pNext, Element* pPrev)
+{
+	this->Data = Data;
+	this->pNext = pNext;
+	this->pPrev = pPrev;
+#ifdef DEBUG
+	cout << "EConstructor:\t" << this << endl;
+#endif // DEBUG
+}
+template<typename T>List<T>::Element::~Element()
+{
+#ifdef DEBUG
+	cout << "EDestructor:\t" << this << endl;
+#endif // DEBUG
+}
 
 template <typename T>size_t List<T>::getSize()const
 {
