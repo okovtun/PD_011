@@ -33,38 +33,13 @@ class List
 	protected:
 		Element* Temp;
 	public:
-		BaseIterator(Element* Temp = nullptr) :Temp(Temp)
-		{
-#ifdef DEBUG
-			cout << "BITConstructor:\t" << this << endl;
-#endif // DEBUG
-		}
-		~BaseIterator()
-		{
-#ifdef DEBUG
-			cout << "BITDestructor:\t" << this << endl;
-#endif // DEBUG
-		}
+		BaseIterator(Element* Temp = nullptr);
+		~BaseIterator();
 
-		bool operator==(const BaseIterator& other)const
-		{
-			return this->Temp == other.Temp;
-		}
-		bool operator!=(const BaseIterator& other)const
-		{
-			return this->Temp != other.Temp;
-		}
-		const T& operator*()const
-		{
-			return Temp->Data;
-		}
-		T& operator*()
-		{
-			return Temp->Data;
-		}
-
-		friend class Iterator;
-		friend class ReverseIterator;
+		bool operator==(const BaseIterator& other)const;
+		bool operator!=(const BaseIterator& other)const;
+		const T& operator*()const;
+		T& operator*();
 	};
 public:
 	class Iterator :public BaseIterator
@@ -196,6 +171,36 @@ template<typename T>List<T>::Element::~Element()
 #ifdef DEBUG
 	cout << "EDestructor:\t" << this << endl;
 #endif // DEBUG
+}
+
+template<typename T>List<T>::BaseIterator::BaseIterator(Element* Temp) :Temp(Temp)
+{
+#ifdef DEBUG
+	cout << "BITConstructor:\t" << this << endl;
+#endif // DEBUG
+}
+template<typename T>List<T>::BaseIterator::~BaseIterator()
+{
+#ifdef DEBUG
+	cout << "BITDestructor:\t" << this << endl;
+#endif // DEBUG
+}
+
+template<typename T>bool List<T>::BaseIterator::operator==(const BaseIterator& other)const
+{
+	return this->Temp == other.Temp;
+}
+template<typename T>bool List<T>::BaseIterator::operator!=(const BaseIterator& other)const
+{
+	return this->Temp != other.Temp;
+}
+template<typename T>const T& List<T>::BaseIterator::operator*()const
+{
+	return Temp->Data;
+}
+template<typename T>T& List<T>::BaseIterator::operator*()
+{
+	return Temp->Data;
 }
 
 template <typename T>size_t List<T>::getSize()const
