@@ -356,11 +356,12 @@ public:
 
 //#define BASE_CHECK
 //#define SIZE_CONSTRUCTOR_AND_INDEX_OPERATOR
+//#define ITERATOR_CHECK
 
 void main()
 {
 	setlocale(LC_ALL, "Russian");
-	//int n;	cout << "Введите размер списка: "; cin >> n;
+	int n;	cout << "Введите размер списка: "; cin >> n;
 #ifdef BASE_CHECK
 	List list;
 	for (int i = 0; i < n; i++)
@@ -392,6 +393,7 @@ void main()
 	list.print();
 #endif // SIZE_CONSTRUCTOR_AND_INDEX_OPERATOR
 
+#ifdef ITERATOR_CHECK
 	List list = { 3, 5, 8, 13, 21 };
 	list.print();
 	for (int i : list)
@@ -408,4 +410,22 @@ void main()
 		cout << *it << tab;
 	}
 	cout << endl;
+#endif // ITERATOR_CHECK
+
+	int* arr = new int[n];
+	for (int i = 0; i < n; i++)
+	{
+		arr[i] = rand();
+	}
+	cout << "Array filled" << endl;
+	List list(n);
+	/*for (int i = 0; i < n; i++)
+	{
+		list[i]=rand();
+	}*/
+	for (List::Iterator it = list.begin(); it != list.end(); it++)
+	{
+		*it = rand();
+	}
+	cout << "List filled" << endl;
 }
