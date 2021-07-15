@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UML", "UML\UML.vcxproj", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Car", "Car\Car.vcxproj", "{05EB3129-7410-4ABA-84CB-0794A0F76BE4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Threads", "Threads\Threads.vcxproj", "{4C5B9F10-7AF6-48F1-A104-772C727CC30F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{05EB3129-7410-4ABA-84CB-0794A0F76BE4}.Release|x64.Build.0 = Release|x64
 		{05EB3129-7410-4ABA-84CB-0794A0F76BE4}.Release|x86.ActiveCfg = Release|Win32
 		{05EB3129-7410-4ABA-84CB-0794A0F76BE4}.Release|x86.Build.0 = Release|Win32
+		{4C5B9F10-7AF6-48F1-A104-772C727CC30F}.Debug|x64.ActiveCfg = Debug|x64
+		{4C5B9F10-7AF6-48F1-A104-772C727CC30F}.Debug|x64.Build.0 = Debug|x64
+		{4C5B9F10-7AF6-48F1-A104-772C727CC30F}.Debug|x86.ActiveCfg = Debug|Win32
+		{4C5B9F10-7AF6-48F1-A104-772C727CC30F}.Debug|x86.Build.0 = Debug|Win32
+		{4C5B9F10-7AF6-48F1-A104-772C727CC30F}.Release|x64.ActiveCfg = Release|x64
+		{4C5B9F10-7AF6-48F1-A104-772C727CC30F}.Release|x64.Build.0 = Release|x64
+		{4C5B9F10-7AF6-48F1-A104-772C727CC30F}.Release|x86.ActiveCfg = Release|Win32
+		{4C5B9F10-7AF6-48F1-A104-772C727CC30F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,9 +1,24 @@
 ﻿#include<iostream>
+#include<conio.h>
+#include<thread>
 using namespace std;
+using namespace std::literals::chrono_literals;
 
 const unsigned int DEFAULT_TANK_VOLUME = 60;
+const unsigned int MIN_FUEL_LEVEL = 5;
 const double DEFAULT_ENGINE_CONSUMPTION = 8;
 const unsigned int DEFAULT_MAX_SPEED = 250;
+
+enum Keys
+{
+	Escape = 27,
+	Enter = 13,
+	Space = 32,
+	ArrowUp = 72,
+	ArrowDown = 80,
+	ArrowLeft = 75,
+	ArrowRight = 77
+};
 
 class Tank
 {
@@ -101,24 +116,90 @@ class Car
 	Engine engine;
 	unsigned int speed;	//текущая скорость
 	unsigned int MAX_SPEED;
+
+	bool driver_inside;
+
+	struct Control
+	{
+		std::thread main_thread;
+		std::thread panel_thread;
+		std::thread idle_thread;
+	}control;
 public:
-	Car(unsigned int MAX_SPEED) :
+	/*Car(unsigned int MAX_SPEED) :
 		speed(0),
-		MAX_SPEED(MAX_SPEED >= 100 && MAX_SPEED <= 350 ? MAX_SPEED : DEFAULT_MAX_SPEED), 
-		engine(this->MAX_SPEED / 15), 
-		tank(this->MAX_SPEED / 5) 
+		MAX_SPEED(MAX_SPEED >= 100 && MAX_SPEED <= 350 ? MAX_SPEED : DEFAULT_MAX_SPEED),
+		engine(this->MAX_SPEED / 15),
+		tank(this->MAX_SPEED / 5)
 	{
 		cout << "Your car is ready to go. Press Enter to get in." << this << endl;
-	}
+	}*/
 	Car(double engine_consumption, unsigned int tank_volume, unsigned int MAX_SPEED = DEFAULT_MAX_SPEED) :
-		engine(engine_consumption), tank(tank_volume),
-		speed(0), MAX_SPEED(MAX_SPEED >= 100 && MAX_SPEED <= 350 ? MAX_SPEED : DEFAULT_MAX_SPEED)
+		engine(engine_consumption),
+		tank(tank_volume),
+		speed(0),
+		MAX_SPEED(MAX_SPEED >= 100 && MAX_SPEED <= 350 ? MAX_SPEED : DEFAULT_MAX_SPEED),
+		driver_inside(false)
 	{
 		cout << "Your car is ready to go. Press Enter to get in." << this << endl;
 	}
 	~Car()
 	{
 		cout << "Your car is over :-(" << this << endl;
+	}
+	void get_in()
+	{
+		driver_inside = true;
+		control.panel_thread = thread(&Car::panel, this);	//Запускаем метод panel в потоке
+	}
+	void get_out()
+	{
+		driver_inside = false;
+		if (control.panel_thread.joinable())control.panel_thread.join();	//Останавливаем поток, отображающий панель приборов
+	}
+	void panel() const
+	{
+		while (driver_inside)
+		{
+			system("CLS");
+			cout << "Engine is " << (engine.is_started() ? "started" : "stopped") << endl;
+			cout << "Fuel level: " << tank.get_fuel_level() << " liters";
+			if (tank.get_fuel_level() < MIN_FUEL_LEVEL)cout << "LOW FUEL";
+			cout << endl;
+			cout << "Speed: " << speed << " km/h" << endl;
+			std::this_thread::sleep_for(1s);
+		}
+		system("CLS");
+		cout << "This is your car, press Enter to get in" << endl;
+	}
+	void control_car()
+	{
+		char key;
+		do
+		{
+			key = _getch();
+			//cout << (int)key << "\t" << key << endl;
+			switch (key)
+			{
+			case Enter:	//Вход/Выход из машины
+				if (driver_inside)get_out();
+				else get_in();
+				break;
+			case 'F':case 'f'://Fill - заправка
+				double amount;
+				cout << "How much?"; cin >> amount;
+				tank.fill(amount);
+				break;
+			case 'I':case 'i'://Ignition - зажигание.
+				break;
+			case 'W':case 'w':case ArrowUp://Gas - газ, разгон
+				break;
+			case ArrowDown:case Space:case 'S':case 's':
+				break;
+			case Escape:
+				get_out();
+			}
+		} while (key != Escape);
 	}
 	void info()const
 	{
@@ -155,6 +236,7 @@ void main()
 	engine.info();
 #endif // ENGINE_CHECK
 
-	Car car(100);
+	Car car(8, 40);
 	car.info();
+	car.control_car();
 }
