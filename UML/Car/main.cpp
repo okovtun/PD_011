@@ -116,6 +116,7 @@ class Car
 	Engine engine;
 	unsigned int speed;	//текущая скорость
 	unsigned int MAX_SPEED;
+	unsigned int accelleration;
 
 	bool driver_inside;
 
@@ -124,6 +125,7 @@ class Car
 		std::thread main_thread;
 		std::thread panel_thread;
 		std::thread idle_thread;
+		std::thread free_wheeling_thread;
 	}control;
 public:
 	/*Car(unsigned int MAX_SPEED) :
@@ -139,6 +141,7 @@ public:
 		tank(tank_volume),
 		speed(0),
 		MAX_SPEED(MAX_SPEED >= 100 && MAX_SPEED <= 350 ? MAX_SPEED : DEFAULT_MAX_SPEED),
+		accelleration(5),
 		driver_inside(false)
 	{
 		cout << "Your car is ready to go. Press Enter to get in." << this << endl;
@@ -172,6 +175,36 @@ public:
 		system("CLS");
 		cout << "This is your car, press Enter to get in" << endl;
 	}
+	void start()	//Заводит машину
+	{
+		if (driver_inside && tank.get_fuel_level() > 0)
+		{
+			engine.start();
+			control.idle_thread = thread(&Car::engine_idle, this);
+		}
+	}
+	void stop()		//Глушит двигатель
+	{
+		engine.stop();
+		if (control.idle_thread.joinable())control.idle_thread.join();
+	}
+	void engine_idle()	//Расходует бензин на холостом ходу
+	{
+		while (tank.give_fuel(engine.get_consumption_per_second()) && engine.is_started())
+		{
+			std::this_thread::sleep_for(1s);
+		}
+		engine.stop();
+	}
+	void free_wheeling()
+	{
+		while (speed > 0)
+		{
+			speed--;
+			if (speed < 0)speed = 0;
+			this_thread::sleep_for(1s);
+		}
+	}
 	void control_car()
 	{
 		char key;
@@ -191,14 +224,34 @@ public:
 				tank.fill(amount);
 				break;
 			case 'I':case 'i'://Ignition - зажигание.
+				if (engine.is_started())stop();
+				else start();
 				break;
 			case 'W':case 'w':case ArrowUp://Gas - газ, разгон
+				if (engine.is_started() && speed < MAX_SPEED)
+				{
+					speed += accelleration;
+					if (control.free_wheeling_thread.get_id() == std::thread::id())
+						control.free_wheeling_thread = std::thread(&Car::free_wheeling, this);
+				}
 				break;
-			case ArrowDown:case Space:case 'S':case 's':
+			case 'S':case 's':case ArrowDown:case Space:
+				if (speed > 0)
+				{
+					speed -= accelleration;
+					if (speed < accelleration)
+					{
+						speed = 0;
+						if (control.free_wheeling_thread.joinable())
+							control.free_wheeling_thread.join();
+					}
+				}
 				break;
 			case Escape:
+				stop();
 				get_out();
 			}
+			if (tank.get_fuel_level() == 0 && control.idle_thread.joinable())control.idle_thread.join();
 		} while (key != Escape);
 	}
 	void info()const
