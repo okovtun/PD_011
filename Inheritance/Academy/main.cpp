@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 #include<string>
 #include<ctime>
 using namespace std;
@@ -73,7 +73,7 @@ public:
 		cout << "First name:" << first_name << endl;
 		cout << "Age:\t\t" << age << " years" << endl;*/
 		//cout << "Birth date:" << birth_date << endl;
-		cout << last_name << " " << first_name << ", " << age << " ëåò" << endl;
+		cout << last_name << " " << first_name << ", " << age << " Ð»ÐµÑ‚" << endl;
 	}
 };
 
@@ -111,8 +111,8 @@ public:
 	//		Constructors
 	Student
 	(
-		HUMAN_TAKE_PARAMETERS,//Àòðèáóòû áàçîâîãî êëàññà
-		STUDENT_GET_PARAMETERS	//Àòðèáóòû íàøåãî êëàññà
+		HUMAN_TAKE_PARAMETERS,//ÐÑ‚Ñ€Ð¸Ð±ÑƒÑ‚Ñ‹ Ð±Ð°Ð·Ð¾Ð²Ð¾Ð³Ð¾ ÐºÐ»Ð°ÑÑÐ°
+		STUDENT_GET_PARAMETERS	//ÐÑ‚Ñ€Ð¸Ð±ÑƒÑ‚Ñ‹ Ð½Ð°ÑˆÐµÐ³Ð¾ ÐºÐ»Ð°ÑÑÐ°
 	) :Human(HUMAN_GIVE_PARAMETERS)
 	{
 		set_speciality(speciality);
@@ -129,7 +129,7 @@ public:
 	void info()const
 	{
 		Human::info();
-		cout << speciality << ", " << group << ", óñïåâàåìîñòü: " << rating << endl;
+		cout << speciality << ", " << group << ", ÑƒÑÐ¿ÐµÐ²Ð°ÐµÐ¼Ð¾ÑÑ‚ÑŒ: " << rating << endl;
 	}
 };
 
@@ -174,13 +174,13 @@ public:
 	void info()const
 	{
 		Human::info();
-		cout << speciality << ", îïûò ïðåïîäàâàíèÿ " << experience << " ëåò." << endl;
+		cout << speciality << ", Ð¾Ð¿Ñ‹Ñ‚ Ð¿Ñ€ÐµÐ¿Ð¾Ð´Ð°Ð²Ð°Ð½Ð¸Ñ " << experience << " Ð»ÐµÑ‚." << endl;
 	}
 };
 
 class Graduate :public Student
 {
-	string topic;	//Òåìà äèïëîìíîãî ïðîåêòà
+	string topic;	//Ð¢ÐµÐ¼Ð° Ð´Ð¸Ð¿Ð»Ð¾Ð¼Ð½Ð¾Ð³Ð¾ Ð¿Ñ€Ð¾ÐµÐºÑ‚Ð°
 public:
 	const string& get_topic()const
 	{
@@ -193,8 +193,8 @@ public:
 
 	Graduate
 	(
-		HUMAN_TAKE_PARAMETERS,//Àòðèáóòû áàçîâîãî êëàññà
-		STUDENT_GET_PARAMETERS,	//Àòðèáóòû íàøåãî êëàññà
+		HUMAN_TAKE_PARAMETERS,//ÐÑ‚Ñ€Ð¸Ð±ÑƒÑ‚Ñ‹ Ð±Ð°Ð·Ð¾Ð²Ð¾Ð³Ð¾ ÐºÐ»Ð°ÑÑÐ°
+		STUDENT_GET_PARAMETERS,	//ÐÑ‚Ñ€Ð¸Ð±ÑƒÑ‚Ñ‹ Ð½Ð°ÑˆÐµÐ³Ð¾ ÐºÐ»Ð°ÑÑÐ°
 		const string& topic
 	) :Student(HUMAN_GIVE_PARAMETERS, STUDENT_GIVE_PARAMETERS),
 		topic(topic)
@@ -208,7 +208,7 @@ public:
 	void info()const
 	{
 		Student::info();
-		cout << "Òåìà äèïëîìíîãî ïðîåêòà: " << topic << endl;
+		cout << "Ð¢ÐµÐ¼Ð° Ð´Ð¸Ð¿Ð»Ð¾Ð¼Ð½Ð¾Ð³Ð¾ Ð¿Ñ€Ð¾ÐµÐºÑ‚Ð°: " << topic << endl;
 	}
 };
 
@@ -219,9 +219,9 @@ void main()
 	setlocale(LC_ALL, "");
 
 #ifdef INHERITANCE_CHECK
-	/*Human human("Òóïåíêî", "Âàñèëèé", 18);
+	/*Human human("Ð¢ÑƒÐ¿ÐµÐ½ÐºÐ¾", "Ð’Ð°ÑÐ¸Ð»Ð¸Ð¹", 18);
 human.info();*/
-	Student vasya("Òóïåíêî", "Âàñèëèé", 18, "Ïðîãðàììèðîâàíèå", "BV_011", 4.5);
+	Student vasya("Ð¢ÑƒÐ¿ÐµÐ½ÐºÐ¾", "Ð’Ð°ÑÐ¸Ð»Ð¸Ð¹", 18, "ÐŸÑ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ", "BV_011", 4.5);
 	vasya.info();
 
 	Teacher teacher("Einstein", "Albert", 150, "Phisics", 120);
@@ -229,25 +229,25 @@ human.info();*/
 
 	Graduate Tony(
 		"Montana", "Antonio", 25,
-		"Ñîâðåìåííûå òåõíîëîãèè ïðîäàæ", "BV_011", 80,
-		"Ðàñïðîñòðàíåíèå êîêàèíà");
+		"Ð¡Ð¾Ð²Ñ€ÐµÐ¼ÐµÐ½Ð½Ñ‹Ðµ Ñ‚ÐµÑ…Ð½Ð¾Ð»Ð¾Ð³Ð¸Ð¸ Ð¿Ñ€Ð¾Ð´Ð°Ð¶", "BV_011", 80,
+		"Ð Ð°ÑÐ¿Ñ€Ð¾ÑÑ‚Ñ€Ð°Ð½ÐµÐ½Ð¸Ðµ ÐºÐ¾ÐºÐ°Ð¸Ð½Ð°");
 	Tony.info();
 #endif // INHERITANCE_CHECK
 	/*
-	//Polymorphism (Ìíîãîôîðìåííîñòü - poly - ìíîãî, morphis - ôîðìà) - ýòî ñïîïñîáíîñòü îáúåêòîâ âåñòè ñåáÿ ïî ðàçíîìó,
-	  â çàâèñèìîñòè îò òîãî, ÊÅÌ ÎÍÈ ßÂËßÞÒÑß.
-	1. Pointer to base class; Óêàçàòåëü íà áàçîâûé êëàññ ìîæåò õðàíèòü àäðåñ äî÷åðíåãî îáúåêòà. (Generalization)
+	//Polymorphism (ÐœÐ½Ð¾Ð³Ð¾Ñ„Ð¾Ñ€Ð¼ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ - poly - Ð¼Ð½Ð¾Ð³Ð¾, morphis - Ñ„Ð¾Ñ€Ð¼Ð°) - ÑÑ‚Ð¾ ÑÐ¿Ð¾Ð¿ÑÐ¾Ð±Ð½Ð¾ÑÑ‚ÑŒ Ð¾Ð±ÑŠÐµÐºÑ‚Ð¾Ð² Ð²ÐµÑÑ‚Ð¸ ÑÐµÐ±Ñ Ð¿Ð¾ Ñ€Ð°Ð·Ð½Ð¾Ð¼Ñƒ,
+	  Ð² Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑ‚Ð¸ Ð¾Ñ‚ Ñ‚Ð¾Ð³Ð¾, ÐšÐ•Ðœ ÐžÐÐ˜ Ð¯Ð’Ð›Ð¯Ð®Ð¢Ð¡Ð¯.
+	1. Pointer to base class; Ð£ÐºÐ°Ð·Ð°Ñ‚ÐµÐ»ÑŒ Ð½Ð° Ð±Ð°Ð·Ð¾Ð²Ñ‹Ð¹ ÐºÐ»Ð°ÑÑ Ð¼Ð¾Ð¶ÐµÑ‚ Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ÑŒ Ð°Ð´Ñ€ÐµÑ Ð´Ð¾Ñ‡ÐµÑ€Ð½ÐµÐ³Ð¾ Ð¾Ð±ÑŠÐµÐºÑ‚Ð°. (Generalization)
 	2. Vitual methods;	(Specialization)
 	*/
 
 	//1. Generalization:
 	Human* group[] =
 	{
-		new Student("Áàòîäàëàåâ", "Äàøè", 16, "ÐÏÎ", "PD_011", 5),
-		new Student("Çàãèäóëëèí", "Ëèíàð", 32, "ÐÏÎ", "PD_011", 5),
-		new Graduate("Øóãàíè", "Ñåðãåé", 15, "ÐÏÎ", "PD_011", 5, "Çàùèòà ïåðñîíàëüíûõ äàííûõ"),
+		new Student("Ð‘Ð°Ñ‚Ð¾Ð´Ð°Ð»Ð°ÐµÐ²", "Ð”Ð°ÑˆÐ¸", 16, "Ð ÐŸÐž", "PD_011", 5),
+		new Student("Ð—Ð°Ð³Ð¸Ð´ÑƒÐ»Ð»Ð¸Ð½", "Ð›Ð¸Ð½Ð°Ñ€", 32, "Ð ÐŸÐž", "PD_011", 5),
+		new Graduate("Ð¨ÑƒÐ³Ð°Ð½Ð¸", "Ð¡ÐµÑ€Ð³ÐµÐ¹", 15, "Ð ÐŸÐž", "PD_011", 5, "Ð—Ð°Ñ‰Ð¸Ñ‚Ð° Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ñ… Ð´Ð°Ð½Ð½Ñ‹Ñ…"),
 		new Teacher("Einstein", "Albert", 141, "Atrophisics", 110),
-		new Student("Ìàðêèí", "Äàíèèë", 17, "ÐÏÎ", "BV_011", 5),
+		new Student("ÐœÐ°Ñ€ÐºÐ¸Ð½", "Ð”Ð°Ð½Ð¸Ð¸Ð»", 17, "Ð ÐŸÐž", "BV_011", 5),
 		new Teacher("Richter", "Jeffrey", 45, "Windows development", 20)
 	};
 
