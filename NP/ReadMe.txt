@@ -2,6 +2,9 @@ https://2ip.ru/
 https://whatismyipaddress.com/
 
 TODO:
+Используя RFC-791 и анализатор протоколов Wireshark изучить структуру IP-пакета.
+
+TODO:
 Написать класс IPaddress
 
 TODO:
