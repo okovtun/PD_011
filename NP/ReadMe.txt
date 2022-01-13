@@ -2,6 +2,12 @@ https://2ip.ru/
 https://whatismyipaddress.com/
 
 TODO:
+Отладить ping.
+
+TODO:
+Повторить структуру IP-пакета и ICMP-сообщения
+
+TODO:
 Используя RFC-791 и анализатор протоколов Wireshark изучить структуру IP-пакета.
 
 TODO:
