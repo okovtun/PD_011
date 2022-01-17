@@ -77,11 +77,11 @@ int main(int argc, char** argv)
 					break;
 				}
 			}
-			if (decode_reply(recv_buf, packet_size, &src) != -2)break;
+				if (decode_reply(recv_buf, packet_size, &src) != -2)break;
 		}
 	}
 }
-int allocate_buffers(ICMPHeader*& send_buf, IPHeader*& recv_buf,  int packet_size)
+int allocate_buffers(ICMPHeader*& send_buf, IPHeader*& recv_buf, int packet_size)
 {
 	send_buf = (ICMPHeader*)new char[packet_size] {};
 	recv_buf = (IPHeader*)new char[MAX_PING_PACKET_SIZE] {};
