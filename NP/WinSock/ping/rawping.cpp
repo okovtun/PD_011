@@ -151,7 +151,7 @@ extern int decode_reply(IPHeader* reply, int bytes, sockaddr_in* from)
 		return -2;
 	}
 
-	int nHops = 256 - reply->ttl;
+	int nHops = 128 - reply->ttl;
 	if (nHops == 192)nHops = 1;
 	else if (nHops == 128)nHops = 0;
 

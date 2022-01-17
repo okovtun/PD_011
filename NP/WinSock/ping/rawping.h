@@ -17,7 +17,7 @@
 struct IPHeader
 {
 	BYTE h_len : 4;		//IP-header length 20 Byte (IHL)
-	BYTE version;		//IPv4
+	BYTE version:4;		//IPv4
 	BYTE tos;			//Type of service
 	USHORT total_len;	//Общая длина IP-пакета включая заголовок и поле данных
 	USHORT ident;

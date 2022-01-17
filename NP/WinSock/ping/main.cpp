@@ -10,7 +10,7 @@ using namespace std;
 #pragma comment(lib, "iphlpapi.lib")
 
 #define DEFAULT_PACKET_SIZE		32
-#define DEFAULT_TTL				30		//IP header TTL
+#define DEFAULT_TTL				128		//IP header TTL
 #define MAX_PING_DATA_SIZE		1024	//
 #define MAX_PING_PACKET_SIZE	(MAX_PING_DATA_SIZE + sizeof(IPHeader))
 
@@ -33,7 +33,7 @@ int main(int argc, char** argv)
 	int seq_num = 0;
 	ICMPHeader* send_buf = 0;
 	IPHeader* recv_buf = 0;
-	int packet_size = MAX_PING_DATA_SIZE;
+	int packet_size = DEFAULT_PACKET_SIZE;
 	int ttl = DEFAULT_TTL;
 
 	WSAData wsaData;
