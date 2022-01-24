@@ -4,7 +4,7 @@
 #include<iostream>
 
 #include"rawping.h"
-#include"ip_checksum.h"
+
 
 extern int setup_for_ping(char* host, int ttl, SOCKET& sd, sockaddr_in& dest)
 {
@@ -163,7 +163,7 @@ extern int decode_reply(IPHeader* reply, int bytes, sockaddr_in* from)
 	else
 	{
 		cout << nHops << " hops";
-		cout << ", time: " << (GetTickCount() - icmphdr->timestamp) << " ms.";
+		cout << ", time: " << (GetTickCount() - icmphdr->timestamp) << " ms.\n";
 	}
 
 	return 0;
