@@ -93,7 +93,8 @@ int main(int argc, char* argv[])
 	/////////////////////////////////////////////////////////////
 
 	int recvbuflen = DEFAULT_BUFLEN;	//размер буфера получения
-	const char* sendbuf = "this is a test";
+	//const char* sendbuf = "this is a test";
+	const char* sendbuf = argv[2];
 	char recvbuf[DEFAULT_BUFLEN]{};
 
 	iResult = send(ConnectSocket, sendbuf, strlen(sendbuf), 0);

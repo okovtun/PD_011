@@ -127,76 +127,86 @@ int main(int argc, char* argv[])
 
 	SOCKET ClientSocket = INVALID_SOCKET;
 
-	ClientSocket = accept(ListenSocket, NULL, NULL);
-	if (ClientSocket == INVALID_SOCKET)
-	{
-		printf("accept failed: %d", WSAGetLastError());
-		closesocket(ListenSocket);
-		WSACleanup();
-		return 1;
-	}
-	else
-	{
-		printf("Accepted connection\n");
-	}
-
-	/////////////////////////////////////////////////////////////
-	//	6. Получение и отправка данных:			/////////////////
-	/////////////////////////////////////////////////////////////
-
-	char recvbuffer[DEFAULT_BUFLEN]{};
-	int iSendResult = 0;
-	int recvBufLen = DEFAULT_BUFLEN;
 	do
 	{
-		iResult = recv(ClientSocket, recvbuffer, recvBufLen, 0);
-		if (iResult > 0)
+		ClientSocket = accept(ListenSocket, NULL, NULL);
+		if (ClientSocket == INVALID_SOCKET)
 		{
-			printf("%d Bytes received\n", iResult);
-			printf("%s\n", recvbuffer);
-			strcat(recvbuffer, " received\n");
+			printf("accept failed: %d", WSAGetLastError());
+			closesocket(ListenSocket);
+			WSACleanup();
+			return 1;
+		}
+		else
+		{
+			printf("Accepted new connection\n");
+		}
 
-			//Отправляем полученный буфер обратно клиенту:
-			iSendResult = send(ClientSocket, recvbuffer, strlen(recvbuffer), 0);
-			if (iSendResult == SOCKET_ERROR)
+		/////////////////////////////////////////////////////////////
+		//	6. Получение и отправка данных:			/////////////////
+		/////////////////////////////////////////////////////////////
+
+		char recvbuffer[DEFAULT_BUFLEN]{};
+		int iSendResult = 0;
+		int recvBufLen = DEFAULT_BUFLEN;
+		do
+		{
+			iResult = recv(ClientSocket, recvbuffer, recvBufLen, 0);
+			if (iResult > 0)
 			{
-				printf("send failed: %d", WSAGetLastError());
+				printf("%d Bytes received\n", iResult);
+				printf("%s\n", recvbuffer);
+				strcat(recvbuffer, " received\n");
+
+				//Отправляем полученный буфер обратно клиенту:
+				iSendResult = send(ClientSocket, recvbuffer, strlen(recvbuffer), 0);
+				if (iSendResult == SOCKET_ERROR)
+				{
+					printf("send failed: %d", WSAGetLastError());
+					closesocket(ClientSocket);
+					WSACleanup();
+					return 1;
+				}
+				printf("%d Bytes sent.\n", iSendResult);
+			}
+			else if (iResult == 0)
+			{
+				printf("Connection closing...\n");
+			}
+			else
+			{
+				printf("recv failed: %d\n", WSAGetLastError());
 				closesocket(ClientSocket);
 				WSACleanup();
 				return 1;
 			}
-			printf("%d Bytes sent.\n", iSendResult);
-		}
-		else if (iResult == 0)
+		} while (iResult > 0);
+
+		/////////////////////////////////////////////////////////////
+		//	7. Отключение сервера:					/////////////////
+		/////////////////////////////////////////////////////////////
+
+		iResult = shutdown(ClientSocket, SD_SEND);
+		if (iResult == SOCKET_ERROR)
 		{
-			printf("Connection closing...\n");
-		}
-		else
-		{
-			printf("recv failed: %d\n", WSAGetLastError());
+			printf("shutdown failed: %d\n", WSAGetLastError());
 			closesocket(ClientSocket);
 			WSACleanup();
 			return 1;
 		}
-	} while (iResult > 0);
+		//firewall.cpl
 
-	/////////////////////////////////////////////////////////////
-	//	7. Отключение сервера:					/////////////////
-	/////////////////////////////////////////////////////////////
-
-	iResult = shutdown(ClientSocket, SD_SEND);
-	if (iResult == SOCKET_ERROR)
-	{
-		printf("shutdown failed: %d\n", WSAGetLastError());
 		closesocket(ClientSocket);
-		WSACleanup();
-		return 1;
-	}
-	//firewall.cpl
-
-	closesocket(ClientSocket);
-
-
+		printf("\n--------------------------------------------------------------\n");
+		printf("%sComparison:%d\n", recvbuffer, strcmp(recvbuffer, "close received\n"));
+		if (strcmp(recvbuffer, "close received\n") == 0)
+		{
+			//printf("%s\b, closing server\n", recvbuffer);
+			printf("closing server\n");
+			break;
+		}
+		printf("\n--------------------------------------------------------------\n");
+	} while (true);
 	closesocket(ListenSocket);
 	WSACleanup();
 	return 0;
