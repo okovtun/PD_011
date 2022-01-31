@@ -121,7 +121,7 @@ int main(int argc, char* argv[])
 	do
 	{
 		iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
-		if (iResult > 0)printf("%d bytes received\n", iResult);
+		if (iResult > 0)printf("%d bytes received\n%s\n", iResult, recvbuf);
 		else if (iResult == 0)printf("Connection closed");
 		else printf("recv failed: %d", WSAGetLastError());
 	} while (iResult > 0);

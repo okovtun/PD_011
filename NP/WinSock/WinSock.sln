@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinSockClient", "WinSockCli
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinSockServer", "WinSockServer\WinSockServer.vcxproj", "{880624C3-E1EE-467A-9463-DEBA18809C36}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinSockServerSerega2005", "WinSockServerSerega2005\WinSockServerSerega2005.vcxproj", "{6C7BC9D8-B2F0-4306-A953-7E866AA8B7F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,14 @@ Global
 		{880624C3-E1EE-467A-9463-DEBA18809C36}.Release|x64.Build.0 = Release|x64
 		{880624C3-E1EE-467A-9463-DEBA18809C36}.Release|x86.ActiveCfg = Release|Win32
 		{880624C3-E1EE-467A-9463-DEBA18809C36}.Release|x86.Build.0 = Release|Win32
+		{6C7BC9D8-B2F0-4306-A953-7E866AA8B7F9}.Debug|x64.ActiveCfg = Debug|x64
+		{6C7BC9D8-B2F0-4306-A953-7E866AA8B7F9}.Debug|x64.Build.0 = Debug|x64
+		{6C7BC9D8-B2F0-4306-A953-7E866AA8B7F9}.Debug|x86.ActiveCfg = Debug|Win32
+		{6C7BC9D8-B2F0-4306-A953-7E866AA8B7F9}.Debug|x86.Build.0 = Debug|Win32
+		{6C7BC9D8-B2F0-4306-A953-7E866AA8B7F9}.Release|x64.ActiveCfg = Release|x64
+		{6C7BC9D8-B2F0-4306-A953-7E866AA8B7F9}.Release|x64.Build.0 = Release|x64
+		{6C7BC9D8-B2F0-4306-A953-7E866AA8B7F9}.Release|x86.ActiveCfg = Release|Win32
+		{6C7BC9D8-B2F0-4306-A953-7E866AA8B7F9}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

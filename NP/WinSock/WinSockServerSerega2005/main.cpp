@@ -1,7 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 //#ifndef WIN32_LEAN_AND_MEAN
 //#define WIN32_LEAN_AND_MEAN
-//#endif
+//#endif // WIN32_LIN_AND_MEAN
+
 #include<iostream>
 #include<stdio.h>
 using namespace std;
@@ -11,29 +12,17 @@ using namespace std;
 #include<WS2tcpip.h>
 
 #pragma comment(lib, "Ws2_32.lib")
-
 #define DEFAULT_PORT "27015"
-#define DEFAULT_BUFLEN	512
+#define DEFAULT_BUFLEN 512
 
-/*
----------------------------------------------------------
-	1. Инициализация WinSock;
-	2. Создание сокета;
-	3. Привязка сокета к определенному интерфейсу (IP-адресу);
-	4. Прослушивание порта;
-	5. Прием соединений от клиентов;
-	6. Получение и отправка данных;
-	7. Отключение;
----------------------------------------------------------
-*/
 
 int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "");
 
-	/////////////////////////////////////////////////////////////
-	//	1. Инициализация WinSock:				/////////////////
-	/////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
+	// 1.Инициализация WinSock
+	//////////////////////////////////////////////
 
 	WSADATA wsaData;
 	int iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -42,18 +31,14 @@ int main(int argc, char* argv[])
 		printf("WSAStartup failed: %d\n", iResult);
 		return 1;
 	}
-	else
-	{
-		printf("WinSock initialised\n");
-	}
 
-	/////////////////////////////////////////////////////////////
-	//	2. Создание сокета:						/////////////////
-	/////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
+	// 2.Создание сокета:
+	//////////////////////////////////////////////
 
-	struct addrinfo* result = NULL;
-	struct addrinfo* ptr = NULL;
-	struct addrinfo hints;
+	struct  addrinfo* result = NULL;
+	struct  addrinfo* ptr = NULL;
+	struct  addrinfo hints;
 
 	ZeroMemory(&hints, sizeof(hints));
 	hints.ai_family = AF_INET;
@@ -69,7 +54,6 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-
 	SOCKET ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
 	if (ListenSocket == INVALID_SOCKET)
 	{
@@ -78,14 +62,10 @@ int main(int argc, char* argv[])
 		WSACleanup();
 		return 1;
 	}
-	else
-	{
-		printf("Socket created\n");
-	}
 
-	/////////////////////////////////////////////////////////////
-	//	3. Привязка сокета к IP-адресу:			/////////////////
-	/////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////
+	// 3.привязка сокета к IP-адресу:
+	////////////////////////////////////////////////////
 
 	iResult = bind(ListenSocket, result->ai_addr, result->ai_addrlen);
 	if (iResult == SOCKET_ERROR)
@@ -96,14 +76,10 @@ int main(int argc, char* argv[])
 		WSACleanup();
 		return 1;
 	}
-	else
-	{
-		printf("Socket binded to interface\n");
-	}
 
-	/////////////////////////////////////////////////////////////
-	//	4. Прослушивание порта:					/////////////////
-	/////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////
+	// 4.Прослушивание порта:
+	////////////////////////////////////////////////////
 
 	iResult = listen(ListenSocket, SOMAXCONN);
 	if (iResult == SOCKET_ERROR)
@@ -114,19 +90,12 @@ int main(int argc, char* argv[])
 		WSACleanup();
 		return 1;
 	}
-	else
-	{
-		printf("Listening to port %s\n", DEFAULT_PORT);
-	}
 
-	/////////////////////////////////////////////////////////////
-	//	5. Прием соединений от клиентов:		/////////////////
-	/////////////////////////////////////////////////////////////
-
-	printf("Waiting for coonections\n");
+	///////////////////////////////////////////////////
+	// 5.Прием соединений от клиентов:
+	////////////////////////////////////////////////////
 
 	SOCKET ClientSocket = INVALID_SOCKET;
-
 	ClientSocket = accept(ListenSocket, NULL, NULL);
 	if (ClientSocket == INVALID_SOCKET)
 	{
@@ -135,14 +104,10 @@ int main(int argc, char* argv[])
 		WSACleanup();
 		return 1;
 	}
-	else
-	{
-		printf("Accepted connection\n");
-	}
 
-	/////////////////////////////////////////////////////////////
-	//	6. Получение и отправка данных:			/////////////////
-	/////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////
+	// 6.Получение и отправка данных:
+	///////////////////////////////////////////////////
 
 	char recvbuffer[DEFAULT_BUFLEN]{};
 	int iSendResult = 0;
@@ -154,14 +119,14 @@ int main(int argc, char* argv[])
 		{
 			printf("%d Bytes received\n", iResult);
 			printf("%s\n", recvbuffer);
-			strcat(recvbuffer, " received\n");
+			strcat(recvbuffer, " received");
 
-			//Отправляем полученный буфер обратно клиенту:
-			iSendResult = send(ClientSocket, recvbuffer, strlen(recvbuffer), 0);
+			//отправляем полученный буффер обратно клиенту:
+			iSendResult = send(ClientSocket, recvbuffer, iResult, 0);
 			if (iSendResult == SOCKET_ERROR)
 			{
 				printf("send failed: %d", WSAGetLastError());
-				closesocket(ClientSocket);
+				closesocket(ListenSocket);
 				WSACleanup();
 				return 1;
 			}
@@ -180,9 +145,9 @@ int main(int argc, char* argv[])
 		}
 	} while (iResult > 0);
 
-	/////////////////////////////////////////////////////////////
-	//	7. Отключение сервера:					/////////////////
-	/////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////
+	// 7. Отключение сервера:
+	///////////////////////////////////////////////////
 
 	iResult = shutdown(ClientSocket, SD_SEND);
 	if (iResult == SOCKET_ERROR)
@@ -192,9 +157,9 @@ int main(int argc, char* argv[])
 		WSACleanup();
 		return 1;
 	}
-	//firewall.cpl
 
 	closesocket(ClientSocket);
+
 
 
 	closesocket(ListenSocket);
